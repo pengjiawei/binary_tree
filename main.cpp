@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stack>
+#include <queue>
 
 #define ERROR -1;
 typedef char elem_type;
@@ -50,17 +51,55 @@ void preorder_no_recursive(binary_node* b){
         }
     }
 }
+//和递归先序遍历是一样的
+void DFS_Recursive(binary_node* b){
+    printf("%c,",b->data);
+    if (b == NULL)
+        return;
+    if(b->left != NULL)
+        DFS_Recursive(b->left);
+    if(b->right != NULL)
+        DFS_Recursive(b->right);
+}
+//广度优先，层次遍历
+void BFS(binary_node* b){
+    std::queue<binary_node*> queue;
+    queue.push(b);
+    binary_node* tmp = (binary_node *) malloc(sizeof(binary_node));
+    while(!queue.empty()){
+        //按层次出队
+        tmp = queue.front();
+        printf("%c,",tmp->data);
+
+        //把节点的左孩子和右孩子按顺序入队
+        if(tmp->left != NULL)
+            queue.push(tmp->left);
+        if (tmp->right != NULL)
+            queue.push(tmp->right);
+        queue.pop();
+    }
+}
 int main() {
-    //传递指针的引用
+    //abd##e##cf##g##
+    //传递指针的引用，创建二叉树这里也可以改成函数参数返回，直观上写法会比现在这样简单
     setbuf(stdin,NULL);
     binary_node* b = NULL;
     create_tree(&b);
+
     printf("pre order\n");
     preorder(b);
     printf("\n");
+
     printf("preorder no recursive\n");
     preorder_no_recursive(b);
     printf("\n");
-    std::cout << "Hello, World!" << std::endl;
+
+    printf("DFS\n");
+    DFS_Recursive(b);
+    printf("\n");
+
+    printf("BFS\n");
+    BFS(b);
+    printf("\n");
     return 0;
 }
