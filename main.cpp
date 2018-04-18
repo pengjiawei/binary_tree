@@ -51,6 +51,27 @@ void preorder_no_recursive(binary_node* b){
         }
     }
 }
+
+void inorder_no_recursive(binary_node* b){
+    std::stack<binary_node*> stack1;
+    binary_node* tmp = b;
+    while(!stack1.empty() || tmp != NULL){
+        while(tmp != NULL){
+            //向左搜寻
+            stack1.push(tmp);
+            tmp = tmp->left;
+        }
+        if (!stack1.empty()){
+            //回退一下，搜寻右边
+            tmp = stack1.top();
+            //每调转一下方向就打印一下当前值
+            printf("%c,",tmp->data);
+            stack1.pop();
+            tmp = tmp->right;
+        }
+    }
+}
+
 //和递归先序遍历是一样的
 void DFS_Recursive(binary_node* b){
     printf("%c,",b->data);
@@ -92,6 +113,10 @@ int main() {
 
     printf("preorder no recursive\n");
     preorder_no_recursive(b);
+    printf("\n");
+
+    printf("inorder no recursive\n");
+    inorder_no_recursive(b);
     printf("\n");
 
     printf("DFS\n");
