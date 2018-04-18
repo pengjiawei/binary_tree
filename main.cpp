@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stack>
+
 #define ERROR -1;
 typedef char elem_type;
 struct binary_node{
@@ -30,6 +32,24 @@ void preorder(binary_node* b){
         preorder(b->right);
     }
 }
+void preorder_no_recursive(binary_node* b){
+    std::stack<binary_node*> stack1;
+    binary_node* tmp = b;
+    while(!stack1.empty() || tmp != NULL){
+        while(tmp != NULL){
+            //向左搜寻
+            printf("%c,",tmp->data);
+            stack1.push(tmp);
+            tmp = tmp->left;
+        }
+        if (!stack1.empty()){
+            //搜寻右边
+            tmp = stack1.top();
+            stack1.pop();
+            tmp = tmp->right;
+        }
+    }
+}
 int main() {
     //传递指针的引用
     setbuf(stdin,NULL);
@@ -37,6 +57,9 @@ int main() {
     create_tree(&b);
     printf("pre order\n");
     preorder(b);
+    printf("\n");
+    printf("preorder no recursive\n");
+    preorder_no_recursive(b);
     printf("\n");
     std::cout << "Hello, World!" << std::endl;
     return 0;
