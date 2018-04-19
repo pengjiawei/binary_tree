@@ -100,6 +100,35 @@ void BFS(binary_node* b){
         queue.pop();
     }
 }
+//ca#b##e#f##
+void isBST(binary_node* b){
+    binary_node* tmp = b;
+    std::stack<binary_node*> stack1;
+    std::vector<elem_type > vec_value;
+    //每个元素都被压栈和出栈一次，时间复杂度O(n)
+    while(!stack1.empty() || tmp != NULL){
+        while(tmp != NULL){
+            stack1.push(tmp);
+            tmp = tmp->left;
+        }
+        if(!stack1.empty()){
+            tmp = stack1.top();
+            stack1.pop();
+            vec_value.push_back(tmp->data);
+            tmp = tmp->right;
+        }
+    }
+    bool flag = true;
+    printf("vec_value = ");
+    //普通的for循环，时间复杂度也为O(n)
+    for (auto iterator = vec_value.begin(); iterator != vec_value.end() - 1; ++iterator) {
+        printf("%c,",*iterator);
+        if(*iterator > *(iterator + 1))
+            flag = false;
+    }
+    printf("%c\n",vec_value.back());
+    printf("isBST = %d\n",flag);
+}
 int main() {
     //abd##e##cf##g##
     //传递指针的引用，创建二叉树这里也可以改成函数参数返回，直观上写法会比现在这样简单
@@ -125,6 +154,10 @@ int main() {
 
     printf("BFS\n");
     BFS(b);
+    printf("\n");
+
+    printf("isBST\n");
+    isBST(b);
     printf("\n");
     return 0;
 }
