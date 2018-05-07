@@ -129,6 +129,47 @@ void isBST(binary_node* b){
     printf("%c\n",vec_value.back());
     printf("isBST = %d\n",flag);
 }
+void mirror(binary_node* b){
+    if (b == NULL)
+        return;
+    if (b->left == NULL && b->right == NULL)
+        return;
+    binary_node* tmp = b->left;
+    b->left = b->right;
+    b->right = tmp;
+    mirror(b->left);
+    mirror(b->right);
+}
+void mirror_not_recursive(binary_node* b){
+    std::queue<binary_node*> queue1;
+    queue1.push(b);
+    while(!queue1.empty()){
+        binary_node* elem = queue1.front();
+        queue1.pop();
+        binary_node* tmp = elem->left;
+        elem->left = elem->right;
+        elem->right = tmp;
+        if(elem->left != NULL)
+            queue1.push(elem->left);
+        if (elem->right != NULL)
+            queue1.push(elem->right);
+    }
+}
+void mirror_not_recursive_stack(binary_node* b){
+    std::stack<binary_node*> stack1;
+    stack1.push(b);
+    while(!stack1.empty()){
+        binary_node* elem = stack1.top();
+        stack1.pop();
+        binary_node* tmp = elem->left;
+        elem->left = elem->right;
+        elem->right = tmp;
+        if(elem->left != NULL)
+            stack1.push(elem->left);
+        if (elem->right != NULL)
+            stack1.push(elem->right);
+    }
+}
 int main() {
     //abd##e##cf##g##
     //传递指针的引用，创建二叉树这里也可以改成函数参数返回，直观上写法会比现在这样简单
@@ -158,6 +199,21 @@ int main() {
 
     printf("isBST\n");
     isBST(b);
+    printf("\n");
+
+    printf("mirror b\n");
+    mirror(b);
+    inorder_no_recursive(b);
+    printf("\n");
+
+    printf("mirror not recursive b\n");
+    mirror_not_recursive(b);
+    inorder_no_recursive(b);
+    printf("\n");
+
+    printf("mirror not recursive stack b\n");
+    mirror_not_recursive_stack(b);
+    inorder_no_recursive(b);
     printf("\n");
     return 0;
 }
