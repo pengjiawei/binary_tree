@@ -170,6 +170,16 @@ void mirror_not_recursive_stack(binary_node* b){
             stack1.push(elem->right);
     }
 }
+//递归方式求解，如果根节点不为空，那么它的深度就是左右子树更大的那个深度加上1。
+// 还可以用广度优先，也就是层次遍历，每次队列的长度就是每一层的个数，在while(!queue.empty())内部加一个while(i < queue.size() )的循环
+int get_depth(binary_node* b){
+    if (b == NULL)
+        return 0;
+    int left_depth,right_depth;
+    left_depth = get_depth(b->left);
+    right_depth = get_depth(b->right);
+    return (left_depth > right_depth ? left_depth : right_depth) + 1;
+}
 int main() {
     //abd##e##cf##g##
     //传递指针的引用，创建二叉树这里也可以改成函数参数返回，直观上写法会比现在这样简单
@@ -215,5 +225,9 @@ int main() {
     mirror_not_recursive_stack(b);
     inorder_no_recursive(b);
     printf("\n");
+
+    printf("get depth of b\n");
+    int depth = get_depth(b);
+    printf("depth = %d\n",depth);
     return 0;
 }
